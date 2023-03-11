@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Website</title>
+    <link rel="stylesheet" href="./styles.css" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/19a9b61030.js" crossorigin="anonymous"></script>
+</head>
+  
+  <body>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="scripts/index.js">
+    </script>
+    <script> 
+    var lux_path = firebase.database().ref('BH1750/lux');
+        lux_path.on('value', (snapshot) => {
+        const lux = snapshot.val();
+        console.log(lux);
+        if (lux  > 400 || lux <= 100){
+            document.getElementById("can_water").innerHTML = "Ne";
+        }
+        else if (lux <= 400 && lux > 100){
+            document.getElementById("can_water").innerHTML = "Ano";
+        }
+        });
+        var air_qualitypath = firebase.database().ref('MQ135/quality');
+        air_qualitypath.on('value', (snapshot) => {
+        const air_quality = snapshot.val();
+        console.log(air_quality);
+        if (air_quality <= 1000 && air_quality >= 500){
+            document.getElementById("new_air").innerHTML = "Ideální hladina CO2";
+        }
+        else if (air_quality > 1000){
+            document.getElementById("new_air").innerHTML = "Vyvětrat!";
+        }
+        else {
+          document.getElementById("new_air").innerHTML = "Ideální hladina CO2";
+        }
+        });
+        var soil_hupath = firebase.database().ref('soil_sensor/soil_hu');
+        soil_hupath.on('value', (snapshot) => {
+        const soil_hu = snapshot.val();
+        console.log(soil_hu);
+        if (soil_hu <= 100 && soil_hu >= 70){
+            document.getElementById("need_watering").innerHTML = "NE";
+        }
+        else if (soil_hu < 70 && soil_hu > 30){
+            document.getElementById("need_watering").innerHTML = "Ano";
+        }
+        else if (soil_hu >= 101 || soil_hu < 0){
+            document.getElementById("need_watering").innerHTML = "Chyba měření!";
+        }
+        else {
+          document.getElementById("need_watering").innerHTML = "Stav vadnutí!!";
+        }
+        });
+    </script>
+    <header>
+        <div class="brand"><a href="#">Admin plocha</a></div>
+        <nav>
+            <ul>
+                <li><a href="./sklenik.html"><b>Skleník</b></a></li>
+                <li><a href="./index.html"><b>Hodnoty</b></a></li>
+                <li><a href="./grafy.html"><b>Grafy</b></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+            <div class="cards">
+              <div class="card">
+                <p></i> Je potřeba zalít?</p>
+                <p><span class="reading"><span id="need_watering"></span></p>
+              </div>
+              <div class="card">
+                <p><i class="fas fa-tint" style="color:#00add6;"></i> Může se zalévat?</p>
+                <p><span class="reading"><span id="can_water"></span></span></p>
+              </div>
+              <div class="card">
+                <p><i class="fa-solid fa-wind" style="color:#e1e437;"></i> Potřeba vyvětrat?</p>
+                <p><span class="reading"><span id="new_air"></span></span></p>
+              </div>
+            </div>
+    </main>
+  </body>
+</html>

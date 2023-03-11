@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Website</title>
+    <link rel="stylesheet" href="./styles.css" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/19a9b61030.js" crossorigin="anonymous"></script>
+</head>
+  
+  <body>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="scripts/index.js"></script>
+  <script>
+    var temp_path = firebase.database().ref('DHT11/temp');
+        temp_path.on('value', (snapshot) => {
+        const temp = snapshot.val();
+        console.log(temp);
+        document.getElementById("temp").innerHTML = temp;
+        });
+        var hum_path = firebase.database().ref('DHT11/hum');
+        hum_path.on('value', (snapshot) => {
+        const hum = snapshot.val();
+        console.log(hum);
+        document.getElementById("hum").innerHTML = hum;
+        });
+        var lux_path = firebase.database().ref('BH1750/lux');
+        lux_path.on('value', (snapshot) => {
+        const lux = snapshot.val();
+        console.log(lux);
+        document.getElementById("lux_light").innerHTML = lux;
+        });
+        var pressure_path = firebase.database().ref('BMP280/pressure');
+        pressure_path.on('value', (snapshot) => {
+        const pressure = snapshot.val();
+        console.log(pressure);
+        document.getElementById("pres").innerHTML = pressure;
+        });
+        var air_quality_path = firebase.database().ref('MQ135/quality');
+        air_quality_path.on('value', (snapshot) => {
+        const air_quality = snapshot.val();
+        console.log(air_quality);
+        document.getElementById("air_quality").innerHTML = air_quality;
+        });
+        var soil_hu_path = firebase.database().ref('soil_sensor/soil_hu');
+        soil_hu_path.on('value', (snapshot) => {
+        const soil_hu = snapshot.val();
+        console.log(soil_hu);
+        document.getElementById("soil_hu").innerHTML = soil_hu;
+        });
+  </script>
+    <header>
+        <div class="brand"><a href="#">Admin plocha</a></div>
+
+        <nav>
+            <ul>
+                <li><a href="./sklenik.html"><b>Skleník</b></a></li>
+                <li><a href="./index.html"><b>Hodnoty</b></a></li>
+                <li><a href="./grafy.html"><b>Grafy</b></a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <!--TOP BAR-->
+
+            <div class="cards">
+              <div class="card">
+                <p><i class="fas fa-thermometer-half" style="color:#059e8a;"></i> Venkovní teplota</p>
+                <p><span class="reading"><span id="temp"></span> &deg;C</span></p>
+              </div>
+              <div class="card">
+                <p><i class="fas fa-tint" style="color:#00add6;"></i> Vlhkost</p>
+                <p><span class="reading"><span id="hum"></span> &percnt;</span></p>
+              </div>
+              <div class="card">
+                <p><i class="fas fa-angle-double-down" style="color:#e1e437;"></i> Tlak vzduchu</p>
+                <p><span class="reading"><span id="pres"></span> hPa</span></p>
+              </div>
+
+              <div class="card">
+                <p><i class="fa-solid fa-sun" style="color:#f4f74a"></i> Intenzita osvětlení</p>
+                <p><span class="reading"><span id="lux_light"></span> lux</span></p>
+              </div>
+
+              <div class="card">
+                <p><i class="fa-droplet-percent"></i> Vlhkost půdy</p>
+                <p><span class="reading"><span id="soil_hu"></span>%</span></p>
+              </div>
+
+              <div class="card">
+                <p><i class="fas fa-thermometer-half" style="color:#059e8a;"></i> Kvalita vzduchu</p>
+                <p><span class="reading"><span id="air_quality"></span> ppm</span></p>
+              </div>
+            </div>
+    </main>
+  </body>
+</html>
